@@ -91,6 +91,7 @@ const Index = () => {
       title: 'Web Developer Fellowship',
       company: 'Monosage Thought Works',
       duration: 'April 2024 - July 2024',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
       responsibilities: [
         'Developed user-friendly interfaces',
         'WordPress Development',
@@ -102,6 +103,7 @@ const Index = () => {
       title: 'Machine Learning Intern',
       company: 'SkillCraft Technology',
       duration: 'July 2024 - August 2024',
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
       responsibilities: [
         'Data Preprocessing and Analysis',
         'Model Development and Training',
@@ -296,36 +298,43 @@ const Index = () => {
                   subtitle: "Bachelor's in Computer Science",
                   period: "2022–2026",
                   badge: "Current CGPA: 8.5",
-                  icon: "🎓"
+                  image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop"
                 },
                 {
                   title: "Resonance Junior College",
                   subtitle: "Class 12 - PCM with English",
                   period: "2020–2022",
                   badge: "91.3%",
-                  icon: "📚"
+                  image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop"
                 },
                 {
                   title: "Vaagdevi High School",
                   subtitle: "SSC - Science Stream",
                   period: "2019–2020",
                   badge: "100%",
-                  icon: "🏫"
+                  image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
                 }
               ].map((edu, index) => (
                 <Card key={index} className="hover-scale animate-fade-in group overflow-hidden h-full" style={{ animationDelay: `${index * 0.2}s` }}>
-                  <CardContent className="p-6 relative h-full flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="text-center mb-4">
-                      <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">{edu.icon}</div>
-                      <Badge variant="secondary" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white transform group-hover:scale-110 transition-transform duration-300 mb-3">
-                        {edu.badge}
-                      </Badge>
+                  <CardContent className="p-0 relative h-full flex flex-col">
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={edu.image} 
+                        alt={edu.title}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      />
                     </div>
-                    <div className="flex-1 text-center transform group-hover:translate-y-[-2px] transition-transform duration-300">
-                      <h4 className="text-lg font-semibold group-hover:text-blue-600 transition-colors duration-300 mb-2">{edu.title}</h4>
-                      <p className="text-muted-foreground text-sm mb-1">{edu.subtitle}</p>
-                      <p className="text-xs text-muted-foreground">{edu.period}</p>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="text-center mb-4">
+                        <Badge variant="secondary" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white transform group-hover:scale-110 transition-transform duration-300 mb-3">
+                          {edu.badge}
+                        </Badge>
+                      </div>
+                      <div className="flex-1 text-center transform group-hover:translate-y-[-2px] transition-transform duration-300">
+                        <h4 className="text-lg font-semibold group-hover:text-blue-600 transition-colors duration-300 mb-2">{edu.title}</h4>
+                        <p className="text-muted-foreground text-sm mb-1">{edu.subtitle}</p>
+                        <p className="text-xs text-muted-foreground">{edu.period}</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -354,11 +363,17 @@ const Index = () => {
               <div className="space-y-12">
                 {experiences.map((exp, index) => (
                   <div key={index} className={`flex items-center animate-fade-in ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`} style={{ animationDelay: `${index * 0.3}s` }}>
-                    <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+                    <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
                       <Card className="hover-scale group overflow-hidden">
-                        <CardContent className="p-6 relative">
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                          <div className="transform group-hover:scale-105 transition-transform duration-300">
+                        <CardContent className="p-0 relative">
+                          <div className="h-48 overflow-hidden">
+                            <img 
+                              src={exp.image} 
+                              alt={exp.title}
+                              className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                          <div className="p-6">
                             <div className="flex items-center justify-between mb-3">
                               <Badge variant="outline" className="transform group-hover:scale-110 transition-transform duration-300">
                                 {exp.duration}
@@ -368,7 +383,7 @@ const Index = () => {
                             <p className="text-lg text-blue-600 font-medium mb-4">{exp.company}</p>
                             <div>
                               <h5 className="font-medium mb-2">Key Responsibilities:</h5>
-                              <ul className={`list-disc space-y-1 text-muted-foreground text-sm ${index % 2 === 0 ? 'list-inside' : 'list-inside'}`}>
+                              <ul className="list-disc list-inside space-y-1 text-muted-foreground text-sm">
                                 {exp.responsibilities.map((resp, idx) => (
                                   <li key={idx} className="hover:text-foreground transition-colors duration-300">{resp}</li>
                                 ))}
@@ -395,10 +410,10 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-muted/30 to-muted/50">
+      <section id="contact" className="py-20 bg-gray-900 text-white">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-16 animate-fade-in bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Get in Touch</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 animate-fade-in text-white">Get in Touch</h2>
             
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Send a Message */}
@@ -406,14 +421,14 @@ const Index = () => {
                 <h3 className="text-3xl font-bold mb-8 text-white">Send a Message</h3>
                 <div className="space-y-6">
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <Input 
                       placeholder="Your Name" 
                       className="pl-12 bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-400 h-12"
                     />
                   </div>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                     <Input 
                       placeholder="Your Email" 
                       type="email"
@@ -421,7 +436,7 @@ const Index = () => {
                     />
                   </div>
                   <div className="relative">
-                    <MessageSquare className="absolute left-3 top-4 text-muted-foreground" size={20} />
+                    <MessageSquare className="absolute left-3 top-4 text-gray-400" size={20} />
                     <Select>
                       <SelectTrigger className="pl-12 bg-gray-800/50 border-gray-700 text-white h-12">
                         <SelectValue placeholder="Purpose of Message" />
@@ -439,7 +454,7 @@ const Index = () => {
                     rows={5}
                     className="bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-400"
                   />
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 transform hover:scale-105 transition-all duration-300">
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white h-12 transform hover:scale-105 transition-all duration-300">
                     <Send size={20} className="mr-2" />
                     Send Message
                   </Button>
@@ -501,28 +516,27 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-background to-muted/30 border-t py-16">
+      <footer className="bg-gray-800 border-t border-gray-700 py-16">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-4 gap-8 mb-12">
               <div className="md:col-span-2 animate-fade-in">
-                <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Akhilanandateja Sanga</h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
+                <h3 className="text-2xl font-bold mb-4 text-white">Akhilanandateja Sanga</h3>
+                <p className="text-gray-400 mb-6 leading-relaxed">
                   Passionate AI Engineer and Full-Stack Developer dedicated to creating innovative solutions 
                   that solve real-world challenges through technology.
                 </p>
                 <div className="flex space-x-4">
                   {[
-                    { href: "https://github.com/Akhilanandateja", icon: Github, color: "hover:text-blue-600" },
-                    { href: "https://www.linkedin.com/in/akhilanandateja", icon: Linkedin, color: "hover:text-blue-600" },
-                    { href: "mailto:akhilanandatejasanga@gmail.com", icon: Mail, color: "hover:text-purple-600" },
-                    { href: "https://wa.me/918328632167", icon: Phone, color: "hover:text-purple-600" }
-                  ].map(({ href, icon: Icon, color }, index) => (
+                    { href: "https://github.com/Akhilanandateja", icon: Github },
+                    { href: "https://www.linkedin.com/in/akhilanandateja", icon: Linkedin },
+                    { href: "mailto:akhilanandatejasanga@gmail.com", icon: Mail },
+                    { href: "https://wa.me/918328632167", icon: Phone }
+                  ].map(({ href, icon: Icon }, index) => (
                     <a 
                       key={href}
                       href={href} 
-                      className={`text-muted-foreground ${color} transition-all duration-300 transform hover:scale-125 hover:-translate-y-1 animate-fade-in`}
-                      style={{ animationDelay: `${index * 0.1}s` }}
+                      className="text-gray-400 hover:text-purple-400 transition-all duration-300 transform hover:scale-125 hover:-translate-y-1"
                     >
                       <Icon size={24} />
                     </a>
@@ -531,14 +545,13 @@ const Index = () => {
               </div>
 
               <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <h4 className="text-lg font-semibold mb-4 text-blue-600">Quick Links</h4>
+                <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
                 <ul className="space-y-2">
-                  {['Home', 'About', 'Education', 'Portfolio', 'Experience', 'Contact'].map((link, index) => (
+                  {['Home', 'About', 'Education', 'Portfolio', 'Experience', 'Contact'].map((link) => (
                     <li key={link}>
                       <button
                         onClick={() => scrollToSection(link.toLowerCase())}
-                        className="text-muted-foreground hover:text-blue-600 transition-all duration-300 transform hover:translate-x-2 animate-fade-in"
-                        style={{ animationDelay: `${0.3 + index * 0.1}s` }}
+                        className="text-gray-400 hover:text-purple-400 transition-all duration-300 transform hover:translate-x-2"
                       >
                         {link}
                       </button>
@@ -548,31 +561,31 @@ const Index = () => {
               </div>
 
               <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <h4 className="text-lg font-semibold mb-4 text-purple-600">Contact Info</h4>
+                <h4 className="text-lg font-semibold mb-4 text-white">Contact Info</h4>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center space-x-2 group">
-                    <Phone size={16} className="text-blue-600 group-hover:animate-bounce" />
-                    <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">+91 8328632167</span>
+                    <Phone size={16} className="text-purple-400 group-hover:animate-bounce" />
+                    <span className="text-gray-400 group-hover:text-white transition-colors duration-300">+91 8328632167</span>
                   </div>
                   <div className="flex items-center space-x-2 group">
-                    <Mail size={16} className="text-purple-600 group-hover:animate-bounce" />
-                    <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">akhilanandatejasanga@gmail.com</span>
+                    <Mail size={16} className="text-purple-400 group-hover:animate-bounce" />
+                    <span className="text-gray-400 group-hover:text-white transition-colors duration-300">akhilanandatejasanga@gmail.com</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="border-t pt-8">
+            <div className="border-t border-gray-700 pt-8">
               <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div className="text-center md:text-left animate-fade-in">
-                  <p className="text-muted-foreground flex items-center justify-center md:justify-start space-x-1">
+                  <p className="text-gray-400 flex items-center justify-center md:justify-start space-x-1">
                     <span>Created with</span>
                     <Heart size={16} className="text-red-500 animate-pulse" />
                     <span>using React & Tailwind CSS</span>
                   </p>
                 </div>
                 <div className="text-center md:text-right animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-gray-400">
                     © 2024 Akhilanandateja Sanga. All rights reserved.
                   </p>
                 </div>
