@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowDown, Github, Linkedin, Mail, Phone, Youtube, Heart } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, Phone, Youtube, Heart, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,42 @@ import PortfolioShowcase from '@/components/PortfolioShowcase';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const typingTexts = [
+    "Frontend Development.",
+    "Backend Development.", 
+    "DSA.",
+    "Problem Solving.",
+    "Machine Learning & AI."
+  ];
+
+  useEffect(() => {
+    const typeSpeed = isDeleting ? 50 : 100;
+    const currentString = typingTexts[currentIndex];
+
+    if (!isDeleting && charIndex < currentString.length) {
+      const timeout = setTimeout(() => {
+        setCurrentText(currentString.substring(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+      }, typeSpeed);
+      return () => clearTimeout(timeout);
+    } else if (isDeleting && charIndex > 0) {
+      const timeout = setTimeout(() => {
+        setCurrentText(currentString.substring(0, charIndex - 1));
+        setCharIndex(charIndex - 1);
+      }, typeSpeed);
+      return () => clearTimeout(timeout);
+    } else if (!isDeleting && charIndex === currentString.length) {
+      setTimeout(() => setIsDeleting(true), 1500);
+    } else if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setCurrentIndex((currentIndex + 1) % typingTexts.length);
+    }
+  }, [currentText, charIndex, isDeleting, currentIndex, typingTexts]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -123,12 +159,19 @@ const Index = () => {
                     <span className="inline-block hover:text-purple-600 transition-colors duration-300 transform hover:scale-105"> Full-Stack Developer</span> • 
                     <span className="inline-block hover:text-green-600 transition-colors duration-300 transform hover:scale-105"> Software Engineer</span>
                   </div>
+                  <div className="text-lg animate-fade-in" style={{ animationDelay: '0.9s' }}>
+                    <span className="text-muted-foreground">I'm good at </span>
+                    <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-semibold">
+                      {currentText}
+                      <span className="animate-pulse">|</span>
+                    </span>
+                  </div>
                 </div>
-                <p className="text-lg leading-relaxed max-w-xl animate-fade-in" style={{ animationDelay: '0.9s' }}>
+                <p className="text-lg leading-relaxed max-w-xl animate-fade-in" style={{ animationDelay: '1.2s' }}>
                   Passionate software developer specializing in AI/ML and full-stack development. 
                   Transforming innovative ideas into functional applications that solve real-world challenges.
                 </p>
-                <div className="flex space-x-4 animate-scale-in" style={{ animationDelay: '1.2s' }}>
+                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animate-scale-in" style={{ animationDelay: '1.5s' }}>
                   <Button 
                     onClick={() => scrollToSection('portfolio')}
                     size="lg" 
@@ -144,8 +187,16 @@ const Index = () => {
                   >
                     Get In Touch
                   </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="hover-scale border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition-all duration-300 group"
+                  >
+                    <Download size={20} className="mr-2 group-hover:animate-bounce" />
+                    Download Resume
+                  </Button>
                 </div>
-                <div className="flex space-x-6 animate-fade-in" style={{ animationDelay: '1.5s' }}>
+                <div className="flex space-x-6 animate-fade-in" style={{ animationDelay: '1.8s' }}>
                   {[
                     { href: "https://github.com/Akhilanandateja", icon: Github, color: "hover:text-gray-800 dark:hover:text-white" },
                     { href: "https://www.linkedin.com/in/akhilanandateja", icon: Linkedin, color: "hover:text-blue-600" },
@@ -155,7 +206,7 @@ const Index = () => {
                       key={href}
                       href={href} 
                       className={`text-muted-foreground ${color} transition-all duration-300 transform hover:scale-125 hover:-translate-y-1`}
-                      style={{ animationDelay: `${1.5 + index * 0.1}s` }}
+                      style={{ animationDelay: `${1.8 + index * 0.1}s` }}
                     >
                       <Icon size={28} />
                     </a>
@@ -242,44 +293,52 @@ const Index = () => {
       {/* Qualifications Section */}
       <section id="qualifications" className="py-20 bg-gradient-to-br from-muted/30 via-muted/50 to-muted/30">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-center mb-16 animate-fade-in animate-gradient">Qualifications</h2>
             
-            {/* Education */}
-            <div className="mb-16">
-              <h3 className="text-2xl font-semibold mb-8 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-fade-in">Education Journey</h3>
-              <div className="space-y-6">
+            {/* Education - Side by Side Layout */}
+            <div className="mb-20">
+              <h3 className="text-3xl font-semibold mb-12 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-fade-in text-center">Education Journey</h3>
+              <div className="grid md:grid-cols-3 gap-8">
                 {[
                   {
                     title: "SR University, Warangal",
-                    subtitle: "Bachelor's in Computer Science (2022–2026)",
+                    subtitle: "Bachelor's in Computer Science",
+                    period: "2022–2026",
                     badge: "Current CGPA: 8.5",
-                    gradient: "from-blue-600 to-purple-600"
+                    gradient: "from-blue-600 to-purple-600",
+                    icon: "🎓"
                   },
                   {
                     title: "Resonance Junior College",
-                    subtitle: "Class 12 - PCM with English (2020–2022)",
+                    subtitle: "Class 12 - PCM with English",
+                    period: "2020–2022",
                     badge: "91.3%",
-                    gradient: "from-purple-600 to-pink-600"
+                    gradient: "from-purple-600 to-pink-600",
+                    icon: "📚"
                   },
                   {
                     title: "Vaagdevi High School",
                     subtitle: "SSC - Science Stream",
+                    period: "2019–2020",
                     badge: "100%",
-                    gradient: "from-green-600 to-blue-600"
+                    gradient: "from-green-600 to-blue-600",
+                    icon: "🏫"
                   }
                 ].map((edu, index) => (
-                  <Card key={index} className="hover-scale animate-fade-in group overflow-hidden" style={{ animationDelay: `${index * 0.2}s` }}>
-                    <CardContent className="p-6 relative">
+                  <Card key={index} className="hover-scale animate-fade-in group overflow-hidden h-full" style={{ animationDelay: `${index * 0.2}s` }}>
+                    <CardContent className="p-6 relative h-full flex flex-col">
                       <div className={`absolute inset-0 bg-gradient-to-br ${edu.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="transform group-hover:translate-x-2 transition-transform duration-300">
-                          <h4 className="text-xl font-semibold group-hover:text-blue-600 transition-colors duration-300">{edu.title}</h4>
-                          <p className="text-muted-foreground">{edu.subtitle}</p>
-                        </div>
-                        <Badge variant="secondary" className={`bg-gradient-to-r ${edu.gradient} text-white transform group-hover:scale-110 transition-transform duration-300`}>
+                      <div className="text-center mb-4">
+                        <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">{edu.icon}</div>
+                        <Badge variant="secondary" className={`bg-gradient-to-r ${edu.gradient} text-white transform group-hover:scale-110 transition-transform duration-300 mb-3`}>
                           {edu.badge}
                         </Badge>
+                      </div>
+                      <div className="flex-1 text-center transform group-hover:translate-y-[-2px] transition-transform duration-300">
+                        <h4 className="text-lg font-semibold group-hover:text-blue-600 transition-colors duration-300 mb-2">{edu.title}</h4>
+                        <p className="text-muted-foreground text-sm mb-1">{edu.subtitle}</p>
+                        <p className="text-xs text-muted-foreground">{edu.period}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -287,32 +346,52 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Experience */}
+            {/* Experience Timeline */}
             <div>
-              <h3 className="text-2xl font-semibold mb-8 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent animate-fade-in">Experience</h3>
-              <div className="space-y-6">
-                {experiences.map((exp, index) => (
-                  <Card key={index} className="hover-scale animate-fade-in group overflow-hidden" style={{ animationDelay: `${index * 0.2}s` }}>
-                    <CardContent className="p-6 relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="transform group-hover:translate-x-2 transition-transform duration-300">
-                          <h4 className="text-xl font-semibold group-hover:text-purple-600 transition-colors duration-300">{exp.title}</h4>
-                          <p className="text-lg text-blue-600 font-medium">{exp.company}</p>
+              <h3 className="text-3xl font-semibold mb-12 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent animate-fade-in text-center">Professional Experience Timeline</h3>
+              <div className="relative">
+                {/* Timeline Line */}
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
+                
+                <div className="space-y-12">
+                  {experiences.map((exp, index) => (
+                    <div key={index} className={`flex items-center animate-fade-in ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`} style={{ animationDelay: `${index * 0.3}s` }}>
+                      <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+                        <Card className="hover-scale group overflow-hidden">
+                          <CardContent className="p-6 relative">
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="transform group-hover:scale-105 transition-transform duration-300">
+                              <div className="flex items-center justify-between mb-3">
+                                <Badge variant="outline" className="transform group-hover:scale-110 transition-transform duration-300">
+                                  {exp.duration}
+                                </Badge>
+                              </div>
+                              <h4 className="text-xl font-semibold group-hover:text-purple-600 transition-colors duration-300 mb-2">{exp.title}</h4>
+                              <p className="text-lg text-blue-600 font-medium mb-4">{exp.company}</p>
+                              <div>
+                                <h5 className="font-medium mb-2">Key Responsibilities:</h5>
+                                <ul className={`list-disc space-y-1 text-muted-foreground text-sm ${index % 2 === 0 ? 'list-inside' : 'list-inside'}`}>
+                                  {exp.responsibilities.map((resp, idx) => (
+                                    <li key={idx} className="hover:text-foreground transition-colors duration-300">{resp}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                      
+                      {/* Timeline Node */}
+                      <div className="w-2/12 flex justify-center">
+                        <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full border-4 border-background shadow-lg transform group-hover:scale-125 transition-transform duration-300 flex items-center justify-center">
+                          <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
                         </div>
-                        <Badge variant="outline" className="transform group-hover:scale-110 transition-transform duration-300">{exp.duration}</Badge>
                       </div>
-                      <div className="transform group-hover:translate-x-2 transition-transform duration-300">
-                        <h5 className="font-medium mb-2">Key Responsibilities:</h5>
-                        <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                          {exp.responsibilities.map((resp, idx) => (
-                            <li key={idx} className="hover:text-foreground transition-colors duration-300">{resp}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      
+                      <div className="w-5/12"></div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -347,14 +426,6 @@ const Index = () => {
                 </Card>
               ))}
             </div>
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 hover:from-green-700 hover:via-blue-700 hover:to-purple-700 text-white animate-scale-in transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              <a href="#" className="flex items-center space-x-2">
-                <span>Download Resume</span>
-              </a>
-            </Button>
           </div>
         </div>
       </section>
